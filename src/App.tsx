@@ -1,6 +1,8 @@
 import '@/app.scss';
+import CollapseDemo from '@/components/radix';
+
 function App() {
-  return <div className="hello-scss">Hello world</div>;
+  return <CollapseDemo title="Primeiro teste" />;
 }
 
 export default App;
