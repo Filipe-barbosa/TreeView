@@ -2,6 +2,7 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  DashIcon,
 } from '@radix-ui/react-icons';
 import * as Checkbox from '@radix-ui/react-checkbox';
 import * as Collapsible from '@radix-ui/react-collapsible';
@@ -27,7 +28,8 @@ const TreeView = () => {
   );
 };
 
-const TreeViewCheckbox = ({ id, children }: CheckboxNode) => {
+const TreeViewCheckbox = (props: CheckboxNode) => {
+  const { id, children } = props;
   const item = useItem(id);
   const hasChildren = children.length > 0;
   const { checkItem } = useCheckboxActions();
@@ -54,13 +56,14 @@ const TreeViewCheckbox = ({ id, children }: CheckboxNode) => {
 
         <Checkbox.Root
           className="CheckboxRoot"
-          value={String(item.checked)}
+          checked={item.status !== 'none'}
+          defaultChecked
           onClick={() => {
-            checkItem(item.id);
+            checkItem({ id: item.id, node: props });
           }}
         >
           <Checkbox.Indicator className="CheckboxIndicator">
-            <CheckIcon />
+            {item.status === 'partial' ? <DashIcon /> : <CheckIcon />}
           </Checkbox.Indicator>
         </Checkbox.Root>
         <label>{item.label}</label>

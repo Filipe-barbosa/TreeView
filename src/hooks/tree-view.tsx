@@ -5,13 +5,14 @@ import { createContext, useContext, useReducer } from 'react';
 export interface CheckboxItem {
   id: string;
   label: string;
-  checked: boolean;
+  status: CheckBoxStatus;
 }
+export type CheckBoxStatus = 'checked' | 'partial' | 'none';
 
 export interface CheckboxNode {
   id: CheckboxItem['id'];
   children: CheckboxNode[];
-  parent?: CheckboxNode['id'];
+  parent?: CheckboxNode;
 }
 
 interface State {
@@ -23,10 +24,70 @@ interface CheckAction {
   type: 'check-item';
   payload: {
     id: CheckboxItem['id'];
+    node: CheckboxNode;
   };
 }
 
 type Action = CheckAction;
+
+function calculateItemStatus(state: State, node: CheckboxNode): CheckBoxStatus {
+  const allChildrenChecked = node.children.every(
+    (i) => state.itemMap[i.id].status === 'checked',
+  );
+
+  if (allChildrenChecked) {
+    return 'checked';
+  }
+
+  const someItemChecked = node.children.some(
+    (i) => state.itemMap[i.id].status === 'checked',
+  );
+
+  if (someItemChecked) {
+    return 'partial';
+  }
+
+  return 'none';
+}
+
+const checkAllChildren = (
+  node: CheckboxNode,
+  status: CheckBoxStatus,
+  state: State,
+) => {
+  const { id, label } = state.itemMap[node.id];
+
+  state.itemMap = {
+    ...state.itemMap,
+    [id]: {
+      id,
+      label,
+      status,
+    },
+  };
+
+  for (const child of node.children) {
+    checkAllChildren(child, status, state);
+  }
+};
+
+const updateParentStatus = (node: CheckboxNode, state: State) => {
+  const { id, label } = state.itemMap[node.id];
+  const newStatus = calculateItemStatus(state, node);
+
+  state.itemMap = {
+    ...state.itemMap,
+    [id]: {
+      id,
+      label,
+      status: newStatus,
+    },
+  };
+
+  if (node.parent != null) {
+    updateParentStatus(node.parent, state);
+  }
+};
 
 const reducer = (
   state: State = { itemMap: {}, graph: [] },
@@ -34,18 +95,22 @@ const reducer = (
 ): State => {
   switch (action?.type) {
     case 'check-item':
-      const { id, checked, label } = state.itemMap[action.payload.id];
-      return {
-        ...state,
-        itemMap: {
-          ...state.itemMap,
-          [id]: {
-            id,
-            label,
-            checked: !checked,
-          },
-        },
-      };
+      const { node } = action.payload;
+      const { status } = state.itemMap[action.payload.id];
+
+      const newStatus = ['partial', 'none'].includes(status)
+        ? 'checked'
+        : 'none';
+
+      const newState: State = { ...state };
+
+      checkAllChildren(node, newStatus, newState);
+
+      if (node.parent != null) {
+        updateParentStatus(node.parent, newState);
+      }
+
+      return newState;
 
     default:
       return state;
@@ -56,7 +121,7 @@ const initialState = reducer(undefined, null);
 const CheckboxCtx = createContext<{
   state: State;
   actions: {
-    checkItem: (id: string) => void;
+    checkItem: (payload: CheckAction['payload']) => void;
   };
 }>({
   state: initialState,
@@ -73,40 +138,40 @@ interface Props {
 function makeRecursiveGraph(
   input: DataInterface,
   state: State,
-  parent?: string,
+  parent?: CheckboxNode,
 ): CheckboxNode {
   if (state.itemMap[input.id] != null) raise('cycle found');
 
-  // add item to map
   state.itemMap = {
     ...state.itemMap,
     [input.id]: {
-      checked: input.checked,
       id: input.id,
+      status: 'none',
       label: input.label,
     },
   };
 
-  return {
+  const node: CheckboxNode = {
     parent,
     id: input.id,
-    children: input.children.map((child) =>
-      makeRecursiveGraph(child, state, input.id),
-    ),
+    children: [],
   };
+
+  node.children = input.children.map((child) =>
+    makeRecursiveGraph(child, state, node),
+  );
+
+  return node;
 }
 
-function dataInterfaceToCheckbox(
-  input: DataInterface[],
-  parent?: string,
-): State {
+function dataInterfaceToCheckbox(input: DataInterface[]): State {
   const initialState: State = {
     graph: [],
     itemMap: {},
   };
 
   initialState.graph = input.map((data) =>
-    makeRecursiveGraph(data, initialState, parent),
+    makeRecursiveGraph(data, initialState),
   );
 
   return initialState;
@@ -121,11 +186,8 @@ export function CheckboxProvider(props: Props) {
   console.log(state);
 
   const actions = {
-    checkItem(id: CheckboxItem['id']) {
-      dispatch({
-        type: 'check-item',
-        payload: { id },
-      });
+    checkItem(payload: CheckAction['payload']) {
+      dispatch({ type: 'check-item', payload });
     },
   };
 
