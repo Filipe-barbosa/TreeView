@@ -1,6 +1,7 @@
 import '@/styles/checkbox.sass';
 import TreeView from '@/components/TreeView';
 import { type DataInterface } from '@/types/TreeView';
+import { CheckboxProvider } from '@/hooks/tree-view';
 
 const mock: DataInterface[] = [
   {
@@ -9,23 +10,23 @@ const mock: DataInterface[] = [
     checked: false,
     children: [
       {
-        id: '1',
+        id: '2',
         label: 'First Children',
         checked: false,
         children: [
           {
-            id: '1',
+            id: '3',
             label: 'First GrandChildren',
             checked: false,
             children: [],
           },
         ],
       },
-      { id: '1', label: 'Second Children', checked: false, children: [] },
+      { id: '4', label: 'Second Children', checked: false, children: [] },
     ],
   },
   {
-    id: '1',
+    id: '5',
     label: 'Root Second Item',
     checked: false,
     children: [],
@@ -33,7 +34,11 @@ const mock: DataInterface[] = [
 ];
 
 function App() {
-  return <TreeView data={mock} />;
+  return (
+    <CheckboxProvider inputData={mock}>
+      <TreeView />
+    </CheckboxProvider>
+  );
 }
 
 export default App;

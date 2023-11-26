@@ -13,23 +13,26 @@
         "sourceType": "module"
     },
     "settings": {
-      "react": {
-        "version": "detect"
-      }
+        "react": {
+            "version": "detect"
+        }
     },
     "plugins": [
         "react",
         "no-relative-import-paths"
     ],
     "rules": {
-        "react/react-in-jsx-scope":"off",
+        "react/react-in-jsx-scope": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/triple-slash-reference": "off",
+        "no-case-declarations": "off",
         "react/no-unescaped-entities": "off",
-        "no-relative-import-paths/no-relative-import-paths":
-        [
+        "no-relative-import-paths/no-relative-import-paths": [
             "warn",
-            {"rootDir": "src", "prefix": "@" }
+            {
+                "rootDir": "src",
+                "prefix": "@"
+            }
         ]
     }
 }

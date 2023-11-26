@@ -1,4 +1,3 @@
-import { type DataInterface } from '@/types/TreeView';
 import {
   CheckIcon,
   ChevronDownIcon,
@@ -7,59 +6,77 @@ import {
 import * as Checkbox from '@radix-ui/react-checkbox';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { useState } from 'react';
+import {
+  type CheckboxNode,
+  useCheckboxActions,
+  useGraph,
+  useItem,
+} from '@/hooks/tree-view';
 
-interface IProps {
-  data: DataInterface[];
-}
+const TreeView = () => {
+  const graph = useGraph();
 
-const TreeView = ({ data }: IProps) => {
+  return (
+    <div className="Container">
+      {graph.length > 0 ? (
+        graph.map((item) => <TreeViewCheckbox key={item.id} {...item} />)
+      ) : (
+        <p>treeview is empty</p>
+      )}
+    </div>
+  );
+};
+
+const TreeViewCheckbox = ({ id, children }: CheckboxNode) => {
+  const item = useItem(id);
+  const hasChildren = children.length > 0;
+  const { checkItem } = useCheckboxActions();
   const [open, setOpen] = useState(false);
 
-  const onToggle = () => {
+  const handleToggle = () => {
     setOpen(!open);
   };
 
   return (
-    <div className="Container">
-      {data.map((treeViewItem) => {
-        const hasChildren = treeViewItem.children.length !== 0;
+    <div className="TreeViewRoot" key={id}>
+      <div className="TreeViewContainer">
+        {open ? (
+          <ChevronUpIcon
+            onClick={handleToggle}
+            style={{ visibility: hasChildren ? 'visible' : 'hidden' }}
+          />
+        ) : (
+          <ChevronDownIcon
+            onClick={handleToggle}
+            style={{ visibility: hasChildren ? 'visible' : 'hidden' }}
+          />
+        )}
 
-        return (
-          <div className="TreeViewRoot" key={treeViewItem.id}>
-            <div className="TreeViewContainer">
-              {/* <ChevronDownIcon /> */}
-              {open ? (
-                <ChevronUpIcon
-                  onClick={onToggle}
-                  style={{ visibility: hasChildren ? 'visible' : 'hidden' }}
-                />
-              ) : (
-                <ChevronDownIcon
-                  onClick={onToggle}
-                  style={{ visibility: hasChildren ? 'visible' : 'hidden' }}
-                />
-              )}
+        <Checkbox.Root
+          className="CheckboxRoot"
+          value={String(item.checked)}
+          onClick={() => {
+            checkItem(item.id);
+          }}
+        >
+          <Checkbox.Indicator className="CheckboxIndicator">
+            <CheckIcon />
+          </Checkbox.Indicator>
+        </Checkbox.Root>
+        <label>{item.label}</label>
+      </div>
 
-              <Checkbox.Root className="CheckboxRoot" defaultChecked>
-                <Checkbox.Indicator className="CheckboxIndicator">
-                  {treeViewItem.checked ? <CheckIcon /> : <div />}
-                </Checkbox.Indicator>
-              </Checkbox.Root>
-              <label>{treeViewItem.label}</label>
-            </div>
-
-            <Collapsible.Root
-              className="CollapsibleRoot"
-              open={open}
-              onOpenChange={setOpen}
-            >
-              <Collapsible.Content className="CollapsibleContent">
-                <TreeView data={treeViewItem.children} />
-              </Collapsible.Content>
-            </Collapsible.Root>
-          </div>
-        );
-      })}
+      <Collapsible.Root
+        className="CollapsibleRoot"
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <Collapsible.Content className="CollapsibleContent">
+          {children.map((node) => (
+            <TreeViewCheckbox key={node.id} {...node} />
+          ))}
+        </Collapsible.Content>
+      </Collapsible.Root>
     </div>
   );
 };
