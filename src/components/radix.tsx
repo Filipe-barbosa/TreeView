@@ -2,11 +2,39 @@ import { useState } from 'react';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { RowSpacingIcon, Cross2Icon } from '@radix-ui/react-icons';
 
+interface DataInterface {
+  id: string;
+  label: string;
+  checked: boolean;
+  children: DataInterface[];
+}
+
+const data: DataInterface[] = [
+  {
+    id: '1',
+    label: 'Root First Item',
+    checked: false,
+    children: [
+      { id: '1', label: 'First Children', checked: false, children: [] },
+      { id: '1', label: 'Second Children', checked: false, children: [] },
+    ],
+  },
+  {
+    id: '1',
+    label: 'Root Second Item',
+    checked: false,
+    children: [],
+  },
+];
+
 interface IProps {
   title: string;
 }
+
 const CollapseDemo = ({ title }: IProps) => {
+  console.log({ data });
   const [open, setOpen] = useState(false);
+
   return (
     <Collapsible.Root
       className="CollapsibleRoot"
