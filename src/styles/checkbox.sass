@@ -1,28 +1,29 @@
 @import '@radix-ui/colors/black-alpha.css'
 @import '@radix-ui/colors/violet.css'
+@import './tokens.scss'
 
 .TreeViewContainer
   display: flex
   width: 100%
   height: 100%
   flex-direction: row
-  gap: 1rem
-  padding-top: 0.5rem
+  gap: $spacing-2x
+  padding-top: $spacing-unit
   align-items: center
 
 
 .CheckboxRoot
   display: flex
-  background-color: white
-  width: 1.5rem
-  height: 1.5rem
-  border-radius: 0.5rem
-  margin-color: gray
+  background-color: $white
+  width: $spacing-3x
+  height: $spacing-3x
+  border-radius: $spacing-unit
+  margin-color: $gray
   flex-direction: column
   align-items: center
 
   &.isChecked
-    background-color: green
+    background-color: $green
 
 
 .TreeViewRoot
@@ -32,18 +33,19 @@
   flex-direction: column
 
 .CollapsibleContent
-  padding-left: 2rem
+  padding-left: $spacing-4x
 
 .icon
-  color: white
-  size: 2 rem
-  stroke-width: 2 rem
+  color: $white
 
 .chevronIconContainer
   display: flex
   align-items: center
   visibility: hidden
-  color: gray
+  color: $gray
 
   &.hasChildren
     visibility: visible
+
+.labelColor
+  labelColor: #gray
