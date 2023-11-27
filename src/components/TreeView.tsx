@@ -13,6 +13,7 @@ import {
   useGraph,
   useItem,
 } from '@/hooks/tree-view';
+import { CustomLabel } from '@/components/CustomLabel';
 
 const TreeView = () => {
   const graph = useGraph();
@@ -68,7 +69,7 @@ const TreeViewCheckbox = (props: CheckboxNode) => {
             </div>
           </Checkbox.Indicator>
         </Checkbox.Root>
-        <label>{item.label}</label>
+        <CustomLabel className="custom-label" label={item.label} />
       </div>
 
       <Collapsible.Root
