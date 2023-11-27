@@ -42,20 +42,20 @@ const TreeViewCheckbox = (props: CheckboxNode) => {
   return (
     <div className="TreeViewRoot" key={id}>
       <div className="TreeViewContainer">
-        {open ? (
-          <ChevronUpIcon
-            onClick={handleToggle}
-            style={{ visibility: hasChildren ? 'visible' : 'hidden' }}
-          />
-        ) : (
-          <ChevronDownIcon
-            onClick={handleToggle}
-            style={{ visibility: hasChildren ? 'visible' : 'hidden' }}
-          />
-        )}
+        <div
+          className={`chevronIconContainer ${hasChildren ? 'hasChildren' : ''}`}
+        >
+          {open ? (
+            <ChevronUpIcon onClick={handleToggle} width="25" height="25" />
+          ) : (
+            <ChevronDownIcon onClick={handleToggle} width="25" height="25" />
+          )}
+        </div>
 
         <Checkbox.Root
-          className="CheckboxRoot"
+          className={`CheckboxRoot ${
+            item.status !== 'none' ? 'isChecked' : ''
+          }`}
           checked={item.status !== 'none'}
           defaultChecked
           onClick={() => {
@@ -63,7 +63,9 @@ const TreeViewCheckbox = (props: CheckboxNode) => {
           }}
         >
           <Checkbox.Indicator className="CheckboxIndicator">
-            {item.status === 'partial' ? <DashIcon /> : <CheckIcon />}
+            <div className="icon">
+              {item.status === 'partial' ? <DashIcon /> : <CheckIcon />}
+            </div>
           </Checkbox.Indicator>
         </Checkbox.Root>
         <label>{item.label}</label>
