@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react';
+import '@/styles/checkbox.sass';
 
 const preview: Preview = {
   parameters: {
