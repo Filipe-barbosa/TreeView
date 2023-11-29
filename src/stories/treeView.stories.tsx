@@ -1,27 +1,39 @@
-import { type Story, type Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react';
 import TreeView from '@/components/TreeView';
-import { mock } from '@/shared/mockData';
+import { defaultData, labelData } from '@/shared/mockData';
 import { CheckboxProvider } from '@/hooks/tree-view';
+import { type DataInterface } from '@/types/TreeView';
 
-const Template: Story<any> = (args) => (
-  <CheckboxProvider inputData={mock}>
-    <TreeView {...args} />
+interface TemplateProps {
+  mockData: DataInterface[];
+}
+
+const Template = ({ mockData }: TemplateProps) => (
+  <CheckboxProvider inputData={mockData}>
+    <TreeView />
   </CheckboxProvider>
 );
 
+export const DefaultLabel: any = Template.bind({});
+DefaultLabel.args = {
+  mockData: defaultData,
+};
+
 export const Primary: any = Template.bind({});
 Primary.args = {
-  mock,
+  mockData: labelData,
 };
 
 const meta: Meta = {
-  title: 'O Exemplo do colapse',
+  title: 'Component Example',
   component: TreeView,
   parameters: {
-    mock,
-  },
-  argTypes: {
-    mock,
+    argTypes: {
+      mockData: {
+        name: 'TreView',
+        description: 'Dados de exemplo para o componente TreeView',
+      },
+    },
   },
 };
 
