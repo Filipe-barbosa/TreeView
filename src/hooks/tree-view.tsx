@@ -1,32 +1,13 @@
 import { raise } from '@/shared/exceptions';
-import { type DataInterface } from '@/types/TreeView';
+import {
+  type DataInterface,
+  type State,
+  type CheckBoxStatus,
+  type CheckboxItem,
+  type CheckboxNode,
+  type CheckAction,
+} from '@/types/TreeView';
 import { createContext, useContext, useReducer } from 'react';
-
-export interface CheckboxItem {
-  id: string;
-  label: string;
-  status: CheckBoxStatus;
-}
-export type CheckBoxStatus = 'checked' | 'partial' | 'none';
-
-export interface CheckboxNode {
-  id: CheckboxItem['id'];
-  children: CheckboxNode[];
-  parent?: CheckboxNode;
-}
-
-interface State {
-  itemMap: Record<string, CheckboxItem>;
-  graph: CheckboxNode[];
-}
-
-interface CheckAction {
-  type: 'check-item';
-  payload: {
-    id: CheckboxItem['id'];
-    node: CheckboxNode;
-  };
-}
 
 type Action = CheckAction;
 
@@ -103,7 +84,6 @@ const reducer = (
         : 'none';
 
       const newState: State = { ...state };
-
       checkAllChildren(node, newStatus, newState);
 
       if (node.parent != null) {
@@ -146,7 +126,7 @@ function makeRecursiveGraph(
     ...state.itemMap,
     [input.id]: {
       id: input.id,
-      status: 'none',
+      status: input.status,
       label: input.label,
     },
   };
@@ -182,8 +162,6 @@ export function CheckboxProvider(props: Props) {
     reducer,
     dataInterfaceToCheckbox(props.inputData),
   );
-
-  console.log(state);
 
   const actions = {
     checkItem(payload: CheckAction['payload']) {

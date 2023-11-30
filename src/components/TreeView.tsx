@@ -7,12 +7,8 @@ import {
 import * as Checkbox from '@radix-ui/react-checkbox';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { useState } from 'react';
-import {
-  type CheckboxNode,
-  useCheckboxActions,
-  useGraph,
-  useItem,
-} from '@/hooks/tree-view';
+import { useCheckboxActions, useGraph, useItem } from '@/hooks/tree-view';
+import { type CheckboxNode } from '@/types/TreeView';
 import { CustomLabel } from '@/components/CustomLabel';
 
 const TreeView = () => {
@@ -58,7 +54,6 @@ const TreeViewCheckbox = (props: CheckboxNode) => {
             item.status !== 'none' ? 'isChecked' : ''
           }`}
           checked={item.status !== 'none'}
-          defaultChecked
           onClick={() => {
             checkItem({ id: item.id, node: props });
           }}
@@ -78,7 +73,7 @@ const TreeViewCheckbox = (props: CheckboxNode) => {
         onOpenChange={setOpen}
       >
         <Collapsible.Content className="CollapsibleContent">
-          {children.map((node) => (
+          {children.map((node: CheckboxNode) => (
             <TreeViewCheckbox key={node.id} {...node} />
           ))}
         </Collapsible.Content>
