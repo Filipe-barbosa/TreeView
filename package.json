@@ -22,6 +22,7 @@
     "string-width": "^7.0.0"
   },
   "devDependencies": {
+    "@cypress/react": "^8.0.0",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
@@ -35,6 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react": "^4.2.0",
+    "cypress": "^13.6.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard-with-typescript": "^40.0.0",
@@ -50,6 +52,7 @@
     "lint-staged": "^15.1.0",
     "prettier": "^3.1.0",
     "sass": "^1.69.5",
+    "start-server-and-test": "^2.0.3",
     "storybook": "^7.5.3",
     "typescript": "*",
     "vite": "^5.0.0",
