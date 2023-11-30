@@ -12,16 +12,16 @@ O TreeView é um componente React que oferece uma visualização de árvore inte
 
 ## Rodando o projeto
 
-Para rodar o projeto instala-se as dependências com yarn ou npm install, para rodar apenas com o comando `yarn dev` ou `npm start`.
+Para rodar o projeto instala-se as dependências com yarn ou npm install executando o comando `yarn` ou `npm start``. Para o desenvolvimento foi usada a biblioteca yarn
 Para o desenvolvimento foi usada a biblioteca yarn.
 
 #### Setup.
 
-O projeto foi desenvolvido utilizando `TypeScript` e a biblioteca `React`. Para o pré-processamento de CSS, optou-se pelo Sass, e como biblioteca de estilos, foi empregado o Radix-ui-primitives. A escolha do TypeScript traria inúmeros benefícios para a aplicação, destacando a imutabilidade no código e uma interpretação mais direta e facilitada do componente desenvolvido para os usuários interagentes do design system. A escolha do Vite deve-se à sua rapidez na configuração do React, aliada a uma comunidade extensa que oferece apoio e facilita a resolução de problemas durante o desenvolvimento.
+O projeto foi desenvolvido utilizando `TypeScript` e a biblioteca `React`. Para o pré-processamento de CSS optou-se pelo Sass e, como biblioteca de estilos, foi empregado o Radix-ui-primitives. A escolha do TypeScript trás inúmeros benefícios para a aplicação, destacando a imutabilidade no código e uma interpretação mais direta e facilitada do componente desenvolvido para os usuários que interagem com o design system.. A escolha do Vite deve-se à sua rapidez na configuração do React, aliada a uma comunidade extensa que oferece apoio e facilita a resolução de problemas durante o desenvolvimento.
 
 ## Estruturação do projeto
 
-O projeto segue estruturado em pastas. Temos a pasta components que contém todos os componentes de estilização, a pasta hooks onde estão alocados os contextos e a lógica utilizada, uma pasta stories onde contém a documentação de estilos do componente por meio da ferramenta storybook. E por fim, a pasta cypress com os osquivos de configuração dos testes.
+O projeto segue estruturado em pastas. A pasta components contém todos os componentes de estilização. Na pasta hooks estão alocados os contextos e a lógica utilizada. A pasta stories contém a documentação de estilos do componente utilizando a ferramenta storybook. Por fim, a pasta cypress contém os arquivos de configuração dos testes.
 
 ## Entendimento do problema .
 
@@ -37,14 +37,13 @@ Inicialmente, cogitou-se uma implementação mais simples, envolvendo a iteraç�
 O algoritmo recebe uma lista de objetos e os processa, gerando um item map e um grafo que indicam as relações de pai e filho, facilitando a visualização. Essas informações são essenciais para renderizar os elementos necessários.
 
 Em seguida, ocorre uma varredura no grafo para atualizar o status de todos os nós, aproveitando o baixo custo de processamento dos filhos. Inicialmente, o algoritmo percorre todos os filhos, atualizando os estados. Se o nó tiver um nó pai, é realizado o processo de atualização nos níveis superiores. A estrutura de lookup permite uma modificação rápida das informações de um nó, contribuindo para a eficiência do algoritmo.
-Todos os dados para a UI são gerados por meio de um contexto pois assim a interface e a lógica são mantidas desacopladas facilitando a manuntenção e aplicação de testes na aplicação.
+Todos os dados para a UI são gerados por meio de um contexto, pois assim a interface e a lógica são mantidas desacopladas facilitando a manuntenção e aplicação de testes na aplicação.
 
-Esta abordagem de lógica lida apenas com a construção e atualização dos status, o exibição e colapsagem dos elementos fica por conta da UI.
+A lógica implementada lida apenas com a construção e atualização dos status. A exibição e a responsabilidade de colapar os elementos fica por conta da camada de UI.
 
 ### Componentes de exibição.
 
-Buscando cumprir as recomendações foram utilizados scss sass e radix-ui-primities.
-Embora usando o root do radix para o componente de arvóre foi optada por uma estilização manual pois o componente é simples,maleavel e personalizavel, durante a construção foi oberservado que pelo nível de customização explanada no vídeo demosntrativo a utilização de um componente de lib para controlar a exibição e colapsagem dos elementos se tornaria um antipatterns refusenequest, por que muitas eranças do componente pai teriam de ser negadas.
+Buscando cumprir as recomendações foram utilizados scss sass e radix-ui-primities. Entretando, foi dedido que para o componente de arvóre seria utilizado o root do radix, decisão tomada já que o mesmo permite uma estilização manual, pois o componente é simples,maleavel e personalizável. Durante a construção foi oberservado que pelo nível de customização explanada no vídeo demosntrativo a utilização de um componente de lib para controlar a exibição e colapsagem dos elementos se tornaria um antipatterns refusenequest, por que muitas heranças do componente pai teriam de ser negadas.
 
 Foram implementadas algumas keys de design tokem que buscaram cercar as cores e os espaçamentos, com isso o objetivo era uma fácil manuntenção dessas estilizações concentrando os valores em uma só variável o que além de padronizar facilita para futuras alterações.
 
@@ -53,6 +52,10 @@ Foram implementadas algumas keys de design tokem que buscaram cercar as cores e 
 Durante o desenvolvimento foi usado o es-Lint mais prettier configurados no projeto buscando um padrão caso mais pessoas sejam inseridas. Foi optado pela configuração default do lint, e fica como ponto de melhoria adicionar configurações personalizadas.
 
 Outro método de padronização da base de código foi a instalação de husks de-pre commmit e pre-push para garantir que o código esteja dentro dos padrões.
+
+### Cenários de testes de componente
+
+Com a criação da lógica faz-se pertinente a validação da mesma, com isso foram desenvolvidos cenários de testes com a ferramenta cypress para garantir que o comportamento esperado está acontecendo. Para executar os teste insira o comando `yarn cypress open` e selecione no navegador a opção de teste de componente.
 
 ## Melhorias.
 
@@ -75,14 +78,7 @@ Inserir  chaves de tradução no código o que garante uma melhor usabilidade e 
 #### Remoção do dangerousHtml no componente de label.
 
 <ul>
-O HtmlDangerous utilizado na implementação é uma abordagem perigosa pois da margem para a inserção de código malicioso na aplicação, tal abordagem foi usada por que não havia um escopo bem definido no projeto sobre quais tags seriam aceitas, com isso não foram limitadas, mas como ponto de melhoria futura o fechamento de escopo dessas tags e a tratativa para o componente aceitar apenas as listadas, controlando a injestão de código na aplicação.
-</ul>
-
-#### Teste unitário.
-
-<ul>
-Estratégia que faz muito sentido para a evolução do produto, o que seria de muito valor para uma versão com o aumento de elementos e equipe, o teste embora custoso se faz indispensável.
-
+O HtmlDangerous utilizado na implementação é uma abordagem perigosa, pois dá margem para a inserção de código malicioso na aplicação. Tal abordagem foi usada por que não havia um escopo bem definido no projeto sobre quais tags seriam aceitas então todas foram liberadas, mas como ponto de melhoria futura o fechamento de escopo dessas tags e a tratativa para o componente aceitar apenas as listadas seria importante, controlando a injestão de código na aplicação.
 </ul>
 
 </ul>
