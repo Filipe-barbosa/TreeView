@@ -1,30 +1,28 @@
-# React + TypeScript + Vite
+# Tree View
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## First of all, welcome! :tada:
 
-Currently, two official plugins are available:
+&nbsp;
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project
 
-## Expanding the ESLint configuration
+This project was developed as part of the selection process at JusBrasil. It is a React component that provides an interactive tree view with checkboxes and expandable functionality. Its purpose is to present hierarchical data clearly and facilitate user interaction.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies used
 
-- Configure the top-level `parserOptions` property like this:
+React \
+Vite \
+TypeScript \
+SASS \
+Radix-ui-primitives \
+Storybook \
+Cypress
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Getting Started :running:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. First, enter the command `yarn` to install the dependencies, and then `yarn dev` to start the project.
+2. To view the UI documentation, simply run the command `yarn storybook`.
+3. To run the tests, use the command `yarn cypress open`.
+4. [Documentation of the application development history.][1]
+
+[1]: /comments.md
