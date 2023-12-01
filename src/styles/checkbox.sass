@@ -47,3 +47,25 @@
 
 .labelColor
   labelColor: #gray
+.loading
+  display: flex
+  width: $spacing-3x
+  height: $spacing-4x
+  padding: $spacing-1x
+  align-items: center
+  justify-content: center
+  margin-left: $spacing-4x
+  animation: rotate360 1s infinite linear
+
+@keyframes rotate360
+  from
+    transform: rotate(0deg)
+
+  to
+    transform: rotate(360deg)
+
+.accordionIcon
+  transition: transform 0.5s ease
+
+  &.open
+    transform: rotate(180deg)

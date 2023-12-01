@@ -1,6 +1,6 @@
 import { type Meta } from '@storybook/react';
 import TreeView from '@/components/TreeView';
-import { defaultData, labelData } from '@/shared/mockData';
+import { defaultData, labelData, loadingData } from '@/shared/mockData';
 import { CheckboxProvider } from '@/hooks/tree-view';
 import { type DataInterface } from '@/types/TreeView';
 
@@ -19,9 +19,14 @@ DefaultLabel.args = {
   mockData: defaultData,
 };
 
-export const Primary: any = Template.bind({});
-Primary.args = {
+export const HTMLLabel: any = Template.bind({});
+HTMLLabel.args = {
   mockData: labelData,
+};
+
+export const Loading: any = Template.bind({});
+Loading.args = {
+  mockData: loadingData,
 };
 
 const meta: Meta = {

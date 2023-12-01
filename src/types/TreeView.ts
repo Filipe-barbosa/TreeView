@@ -2,11 +2,13 @@ export interface DataInterface {
   id: string;
   label: string;
   status: CheckBoxStatus;
+  loading?: boolean;
   children: DataInterface[];
 }
 export interface CheckboxItem {
   id: string;
   label: string;
+  loading?: boolean;
   status: CheckBoxStatus;
 }
 export type CheckBoxStatus = 'checked' | 'partial' | 'none';

@@ -1,8 +1,8 @@
 import {
   CheckIcon,
   ChevronDownIcon,
-  ChevronUpIcon,
   DashIcon,
+  ReloadIcon,
 } from '@radix-ui/react-icons';
 import * as Checkbox from '@radix-ui/react-checkbox';
 import * as Collapsible from '@radix-ui/react-collapsible';
@@ -38,46 +38,58 @@ const TreeViewCheckbox = (props: CheckboxNode) => {
 
   return (
     <div className="TreeViewRoot" key={id}>
-      <div className="TreeViewContainer">
-        <div
-          className={`chevronIconContainer ${hasChildren ? 'hasChildren' : ''}`}
-        >
-          {open ? (
-            <ChevronUpIcon onClick={handleToggle} width="25" height="25" />
-          ) : (
-            <ChevronDownIcon onClick={handleToggle} width="25" height="25" />
-          )}
+      {item.loading ?? false ? (
+        <div className="loading">
+          <ReloadIcon width="30" height="30" />
         </div>
-
-        <Checkbox.Root
-          className={`CheckboxRoot ${
-            item.status !== 'none' ? 'isChecked' : ''
-          }`}
-          checked={item.status !== 'none'}
-          onClick={() => {
-            checkItem({ id: item.id, node: props });
-          }}
-        >
-          <Checkbox.Indicator className="CheckboxIndicator">
-            <div className="icon">
-              {item.status === 'partial' ? <DashIcon /> : <CheckIcon />}
+      ) : (
+        <>
+          <div className="TreeViewContainer">
+            <div
+              className={`chevronIconContainer ${
+                hasChildren ? 'hasChildren' : ''
+              }`}
+            >
+              <ChevronDownIcon
+                className={`accordionIcon ${open ? 'open' : ''}`}
+                onClick={handleToggle}
+                width="25"
+                height="25"
+              />
             </div>
-          </Checkbox.Indicator>
-        </Checkbox.Root>
-        <CustomLabel className="custom-label" label={item.label} />
-      </div>
 
-      <Collapsible.Root
-        className="CollapsibleRoot"
-        open={open}
-        onOpenChange={setOpen}
-      >
-        <Collapsible.Content className="CollapsibleContent">
-          {children.map((node: CheckboxNode) => (
-            <TreeViewCheckbox key={node.id} {...node} />
-          ))}
-        </Collapsible.Content>
-      </Collapsible.Root>
+            <Checkbox.Root
+              className={`CheckboxRoot ${
+                item.status !== 'none' ? 'isChecked' : ''
+              }`}
+              checked={item.status !== 'none'}
+              onClick={() => {
+                checkItem({ id: item.id, node: props });
+              }}
+            >
+              <Checkbox.Indicator className="CheckboxIndicator">
+                <div className="icon">
+                  {item.status === 'partial' ? <DashIcon /> : <CheckIcon />}
+                </div>
+              </Checkbox.Indicator>
+            </Checkbox.Root>
+            {item.loading}
+            <CustomLabel className="custom-label" label={item.label} />
+          </div>
+
+          <Collapsible.Root
+            className="CollapsibleRoot"
+            open={open}
+            onOpenChange={setOpen}
+          >
+            <Collapsible.Content className="CollapsibleContent">
+              {children.map((node: CheckboxNode) => (
+                <TreeViewCheckbox key={node.id} {...node} />
+              ))}
+            </Collapsible.Content>
+          </Collapsible.Root>
+        </>
+      )}
     </div>
   );
 };

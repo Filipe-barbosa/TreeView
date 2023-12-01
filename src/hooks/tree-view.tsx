@@ -127,6 +127,7 @@ function makeRecursiveGraph(
     [input.id]: {
       id: input.id,
       status: input.status,
+      loading: input.loading,
       label: input.label,
     },
   };
