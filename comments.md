@@ -1,88 +1,83 @@
-# Desafio TreeVeww
+# TreeView Challenge
 
-Olá!!
+"Hello!!
 
-seja bem vindo ao desafio TreeVieww!!
+Welcome to the TreeView Challenge!!
 
-Este é um projeto desenvolvido para o processo seletivo da empresa JusBrasil.
+This is a project developed for the selection process at JusBrasil company."
 
-## O Que é o TreeVieww
+The TreeView is a React component that provides an interactive tree view with checkboxes and expandability capabilities. It is designed to display hierarchical data in a clear manner and enable user interaction.
 
-O TreeView é um componente React que oferece uma visualização de árvore interativa com caixas de seleção e capacidade de expansão. Ele é projetado para exibir dados hierárquicos de maneira clara e permitir a interação do usuário.
+## Run the project
 
-## Rodando o projeto
+To run the project, install the dependencies using either yarn or npm install by executing the command `yarn` or `npm start`. The development utilized the Yarn library.
 
-Para rodar o projeto instala-se as dependências com yarn ou npm install executando o comando `yarn` ou `npm start``. Para o desenvolvimento foi usada a biblioteca yarn
-Para o desenvolvimento foi usada a biblioteca yarn.
+#### Setup
 
-#### Setup.
+The project was developed using `TypeScript` and the `React` library. For CSS pre-processing, `Sass` was chosen, and as the styling library, `Radix-ui-primitives` was employed. The choice of TypeScript brings numerous benefits to the application, emphasizing immutability in the code and a more direct and streamlined interpretation of the component for users interacting with the design system. The selection of Vite is due to its quick React configuration, coupled with an extensive community that provides support and facilitates issue resolution during development.
 
-O projeto foi desenvolvido utilizando `TypeScript` e a biblioteca `React`. Para o pré-processamento de CSS optou-se pelo Sass e, como biblioteca de estilos, foi empregado o Radix-ui-primitives. A escolha do TypeScript trás inúmeros benefícios para a aplicação, destacando a imutabilidade no código e uma interpretação mais direta e facilitada do componente desenvolvido para os usuários que interagem com o design system.. A escolha do Vite deve-se à sua rapidez na configuração do React, aliada a uma comunidade extensa que oferece apoio e facilita a resolução de problemas durante o desenvolvimento.
+## Project Structure
 
-## Estruturação do projeto
+The project is structured into folders. The components folder contains all styling components. The hooks folder houses contexts and used logic. The stories folder contains the component style documentation using the Storybook tool. Finally, the cypress folder contains test configuration files.
 
-O projeto segue estruturado em pastas. A pasta components contém todos os componentes de estilização. Na pasta hooks estão alocados os contextos e a lógica utilizada. A pasta stories contém a documentação de estilos do componente utilizando a ferramenta storybook. Por fim, a pasta cypress contém os arquivos de configuração dos testes.
+## Understanding of the problem.
 
-## Entendimento do problema .
+After reviewing videos explaining the desired functionality, the developer identified that the challenge was related to a tree structure. With this understanding, they chose to implement a graph algorithm along with a lookup structure.
 
-Após revisar vídeos que explicavam o funcionamento desejado, a pessoa desenvolvedora identificou que o desafio estava relacionado a uma estrutura de árvore. Diante desse entendimento, optou por implementar um algoritmo de grafo em conjunto com uma estrutura de lookup.
+This choice was motivated by the efficiency of the algorithm compared to a naive iterative approach. The use of graphs simplified calculations, providing a clear structure for child and parent data. This eliminated the need to employ a depth-first search algorithm, resulting in greater interactivity. With this method, the algorithm can access the data of any node with linear complexity.
 
-Essa escolha foi motivada pela eficiência do algorítimo, em comparação com uma abordagem ingenua iterativa.
-A utilização de grafos simplificou os cálculos, fornecendo uma estrutura clara para os dados dos filhos e pais. Isso eliminou a necessidade de empregar um algoritmo de busca em profundidade, resultando em maior interatividade. Com esse método, o algoritmo pode acessar os dados de qualquer nó com uma complexidade linear.
+Initially, a simpler implementation was considered, involving iteration through a list of nested objects due to its more direct logic. However, upon realizing that the problem did not specify the total dimension the tree could reach, the more robust method was chosen. This approach allows the component to operate efficiently throughout the algorithm, regardless of size, with linear complexity. In contrast, the initial approach would have quadratic complexity, which makes a significant difference in terms of performance and computational cost, especially when dealing with large volumes of data.
 
-Inicialmente, cogitou-se uma implementação mais simples, envolvendo a iteração por uma lista de objetos aninhados devido à sua lógica mais direta. No entanto, ao compreender que o problema não especificava a dimensão total que a árvore poderia atingir, optou-se pelo método mais robusto. Essa abordagem permite que o componente opere eficientemente em todo o algoritmo, independentemente do tamanho, com uma complexidade linear. Em contraste, a abordagem inicial teria uma complexidade quadrática, o que faz diferença significativa em termos de desempenho e custo computacional, especialmente ao lidar com grandes volumes de dados.
+### Logic Resolution
 
-### Resolução da lógica
+The algorithm receives a list of objects and processes them, generating a mapping item and a graph indicating parent-child relationships, facilitating visualization. This information is essential for rendering the necessary elements.
 
-O algoritmo recebe uma lista de objetos e os processa, gerando um item map e um grafo que indicam as relações de pai e filho, facilitando a visualização. Essas informações são essenciais para renderizar os elementos necessários.
+Then, a traversal of the graph occurs to update the status of all nodes, taking advantage of the low processing cost of the children. Initially, the algorithm traverses all children, updating their states. If a node has a parent node, the updating process extends to higher levels. The lookup structure allows for quick modification of a node's information, contributing to the efficiency of the algorithm. All data for the UI is generated through a context, keeping the interface and logic decoupled for easier maintenance and application of tests in the application.
 
-Em seguida, ocorre uma varredura no grafo para atualizar o status de todos os nós, aproveitando o baixo custo de processamento dos filhos. Inicialmente, o algoritmo percorre todos os filhos, atualizando os estados. Se o nó tiver um nó pai, é realizado o processo de atualização nos níveis superiores. A estrutura de lookup permite uma modificação rápida das informações de um nó, contribuindo para a eficiência do algoritmo.
-Todos os dados para a UI são gerados por meio de um contexto, pois assim a interface e a lógica são mantidas desacopladas facilitando a manuntenção e aplicação de testes na aplicação.
+The implemented logic only deals with the construction and updating of statuses. The display and responsibility for collapsing elements are handled by the UI layer.
 
-A lógica implementada lida apenas com a construção e atualização dos status. A exibição e a responsabilidade de colapar os elementos fica por conta da camada de UI.
+### UI Components
 
-### Componentes de exibição.
+In an effort to follow best practices, SCSS Sass and radix-ui-primitives were used. However, it was decided that for the tree component, the radix root would be used. This decision was made because it allows for manual styling, as the component is simple, flexible, and customizable. During construction, it was observed that, given the level of customization demonstrated in the demo video, using a library component to control the display and collapsing of elements would become an anti-pattern. This is because many inheritances from the parent component would have to be denied.
 
-Buscando cumprir as recomendações foram utilizados scss sass e radix-ui-primities. Entretando, foi dedido que para o componente de arvóre seria utilizado o root do radix, decisão tomada já que o mesmo permite uma estilização manual, pois o componente é simples,maleavel e personalizável. Durante a construção foi oberservado que pelo nível de customização explanada no vídeo demosntrativo a utilização de um componente de lib para controlar a exibição e colapsagem dos elementos se tornaria um antipatterns refusenequest, por que muitas heranças do componente pai teriam de ser negadas.
+Some design token keys were implemented to encapsulate colors and spacings. The goal was easy maintenance of these stylings by concentrating the values in a single variable, which not only standardizes but also makes it easier for future changes.
 
-Foram implementadas algumas keys de design tokem que buscaram cercar as cores e os espaçamentos, com isso o objetivo era uma fácil manuntenção dessas estilizações concentrando os valores em uma só variável o que além de padronizar facilita para futuras alterações.
+### Code Formatting
 
-### Formatação de código
+During development, esLint and Prettier were used, configured in the project to establish a standard in case more people are involved. The default lint configuration was chosen, and there is room for improvement by adding custom configurations.
 
-Durante o desenvolvimento foi usado o es-Lint mais prettier configurados no projeto buscando um padrão caso mais pessoas sejam inseridas. Foi optado pela configuração default do lint, e fica como ponto de melhoria adicionar configurações personalizadas.
+Another method of standardizing the codebase was the installation of husky pre-commit and pre-push hooks to ensure that the code adheres to the standards.
 
-Outro método de padronização da base de código foi a instalação de husks de-pre commmit e pre-push para garantir que o código esteja dentro dos padrões.
+### Component Testing
 
-### Cenários de testes de componente
+With the logic in place, it is pertinent to validate it. Therefore, test scenarios were developed using the Cypress tool to ensure that the expected behavior is occurring. To run the tests, enter the command yarn cypress open and select the component test option in the browser.
 
-Com a criação da lógica faz-se pertinente a validação da mesma, com isso foram desenvolvidos cenários de testes com a ferramenta cypress para garantir que o comportamento esperado está acontecendo. Para executar os teste insira o comando `yarn cypress open` e selecione no navegador a opção de teste de componente.
+## Improvements
 
-## Melhorias.
-
-Dada a condição de tempo o produto até então desenvolvido trata-se da versão 0. Como versão 1 foram pensadas algumas melhorias tais como:
+Given the time constraints, the product developed so far is considered version 0. For version 1, some improvements have been considered, such as:
 
 <ul>
 
-#### Implementação de condição de parada da iteração
+#### Implementation of iteration stop condition
 
  <ul>
-Aplicar uma condição de parada para o algorítimo, pois, na implementação atual a inserção de um array apontando para dentro do mesmo pode ocasionar na renderização infinita do componente.
+Apply a stop condition for the algorithm, as in the current implementation, inserting an array pointing inside itself can result in the infinite rendering of the component.
 </ul>
 
-#### Chave de tradução.
+#### Translation Key
 
 <ul>
-Inserir  chaves de tradução no código o que garante uma melhor usabilidade e também não ter strings soltas dentro da base.
+Create translation keys into the code, which ensures better usability and avoids having loose strings in the codebase.
 </ul>
 
-#### Remoção do dangerousHtml no componente de label.
+#### Removal of the dangerousHtml in the label component.
 
 <ul>
-O HtmlDangerous utilizado na implementação é uma abordagem perigosa, pois dá margem para a inserção de código malicioso na aplicação. Tal abordagem foi usada por que não havia um escopo bem definido no projeto sobre quais tags seriam aceitas então todas foram liberadas, mas como ponto de melhoria futura o fechamento de escopo dessas tags e a tratativa para o componente aceitar apenas as listadas seria importante, controlando a injestão de código na aplicação.
+The usage of HtmlDangerous in the implementation is a risky approach as it opens the possibility of injecting malicious code into the application. This approach was used because there was not a well-defined scope in the project regarding which tags would be accepted, so all were allowed. However, as a point for future improvement, closing the scope of these tags and handling the component to accept only the listed ones would be important to control code injection into the application.
 </ul>
 
 </ul>
 
-## Considerações finais
+## Closing remarks
 
-As práticas desenvolvidas levaram em consideração uma boa qualidade de código, mas também visando entregar em tempo hábil.
+The practices developed took into consideration good code quality, but also aimed at delivering in a timely manner.
