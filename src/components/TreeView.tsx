@@ -1,6 +1,6 @@
 import {
   CheckIcon,
-  ChevronDownIcon,
+  ChevronRightIcon,
   DashIcon,
   ReloadIcon,
 } from '@radix-ui/react-icons';
@@ -50,7 +50,7 @@ const TreeViewCheckbox = (props: CheckboxNode) => {
                 hasChildren ? 'hasChildren' : ''
               }`}
             >
-              <ChevronDownIcon
+              <ChevronRightIcon
                 className={`accordionIcon ${open ? 'open' : ''}`}
                 onClick={handleToggle}
                 width="25"
