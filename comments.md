@@ -4,7 +4,7 @@
 
 Welcome to the TreeView Challenge!!
 
-This is a project developed for the selection process at JusBrasil company."
+This is a project developed for the selection process."
 
 The TreeView is a React component that provides an interactive tree view with checkboxes and expandability capabilities. It is designed to display hierarchical data in a clear manner and enable user interaction.
 
