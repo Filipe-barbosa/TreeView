@@ -6,7 +6,7 @@
 
 ## Project
 
-This project was developed as part of the selection process at JusBrasil. It is a React component that provides an interactive tree view with checkboxes and expandable functionality. Its purpose is to present hierarchical data clearly and facilitate user interaction.
+This project was developed as part of the selection process. It is a React component that provides an interactive tree view with checkboxes and expandable functionality. Its purpose is to present hierarchical data clearly and facilitate user interaction.
 
 ## Technologies used
 
